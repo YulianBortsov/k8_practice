@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-nodeport-service
+spec:
+  type: NodePort
+  selector:
+      name: 2-container-pod
+  ports:
+    - port: 3306
+      targetPort: 3306
