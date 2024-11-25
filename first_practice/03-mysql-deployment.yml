@@ -22,11 +22,20 @@ spec:
                 name: mysql-root-password
                 key: MYSQL_ROOT_PASSWORD
           - name: MYSQL_DATABASE
-            value: wordpressdb
+            valueFrom:
+              configMapKeyRef:
+                name: wordpress-configmap
+                key: WORDPRESS_DB_NAME
           - name: MYSQL_PASSWORD
-            value: wordpresspass
+            valueFrom:
+              secretKeyRef:
+                name: mysql-password
+                key: WORDPRESS_DB_PASSWORD
           - name: MYSQL_USER
-            value: wordpressUser
+            valueFrom:
+              configMapKeyRef:
+                name: wordpress-configmap
+                key: WORDPRESS_DB_USER
         ports:
           - containerPort: 3306
             name: mysql
