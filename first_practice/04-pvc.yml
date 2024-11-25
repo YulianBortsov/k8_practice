@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc                     # Name of the PVC
+spec:
+  accessModes:                     # Specifies how the volume can be accessed
+    - ReadWriteOnce                # Options: ReadWriteOnce, ReadOnlyMany, ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi                 # Storage size requested
+#  storageClassName: standard       # The StorageClass to use (if dynamic provisioning is enabled)
