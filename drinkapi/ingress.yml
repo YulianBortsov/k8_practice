@@ -1,0 +1,48 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pepsicola-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/default-backend: default-http-backend
+spec:
+  ingressClassName: nginx
+  defaultBackend:
+        service:
+          name: default-http-backend
+          port:
+            number: 80
+  rules:
+    - http:
+        paths:
+          - path: /pepsi
+            pathType: Prefix
+            backend:
+              service: 
+                name: pepsi-clusterip
+                port:
+                  number: 80
+          - path: /cola
+            pathType: Prefix
+            backend:
+              service:
+                name: cola-clusterip
+                port:
+                  number: 80
+    - host: pepsi.cooldrinks.com
+      http:
+        paths:
+          - path: /pepsi
+            pathType: Prefix
+            backend:
+              service: 
+                name: pepsi-clusterip
+                port:
+                  number: 80
+          - path: /cola
+            pathType: Prefix
+            backend:
+              service:
+                name: cola-clusterip
+                port:
+                  number: 80

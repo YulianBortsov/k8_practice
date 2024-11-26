@@ -1,7 +1,8 @@
 apiVersion: v1 
 kind: Service
 metadata:
-  name: mysql-clusterip
+  name: mysql-svc
+  namespace: backend
 spec:
   type: ClusterIP
   ports:
