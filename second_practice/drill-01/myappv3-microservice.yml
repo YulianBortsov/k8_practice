@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-v3-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+      version: v3
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: v3
+    spec:
+      containers:
+        - image: nginx:1.11.5
+          name: myappv3
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: config-volume
+          configMap:
+            name: myappv3-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myappv3-clusterip
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 80
+      port: 80
+  selector:
+    app: myapp
+    version: v3

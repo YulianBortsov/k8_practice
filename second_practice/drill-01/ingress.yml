@@ -1,0 +1,48 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/default-backend: myapp-main-clusterip
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/limit-rpm: "100"
+    nginx.ingress.kubernetes.io/add-header: "X-MyApp-Header"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - myapp
+      secretName: myapp-tls-secret
+  rules:
+    - host: myapp
+      http:
+        paths:
+          - path: /v1/
+            pathType: Prefix
+            backend:
+              service: 
+                name: myappv1-clusterip
+                port:
+                  number: 80
+          - path: /v2/
+            pathType: Prefix
+            backend:
+              service:
+                name: myappv2-clusterip
+                port:
+                  number: 80
+          - path: /v3/
+            pathType: Prefix
+            backend:
+              service:
+                name: myappv3-clusterip
+                port:
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: myapp-main-clusterip
+                port:
+                  number: 80

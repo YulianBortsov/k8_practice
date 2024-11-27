@@ -25,3 +25,16 @@ spec:
         - name: config-volume
           configMap:
             name: pepsi-nginx
+
+---
+apiVersion: v1 
+kind: Service
+metadata:
+  name: pepsi-clusterip
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 80
+      port: 80
+  selector:
+    app: pepsi
